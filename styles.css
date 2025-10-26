@@ -1,0 +1,417 @@
+/* Reset & base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top left, var(--bg-color), var(--card-bg));
+    color: var(--text-color);
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.paragraph {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: 10px;
+    transition: color 0.3s ease;
+}
+
+body.light-mode .paragraph {
+    color: var(--text-color); /* ensures paragraph uses the new light text color */
+    text-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+}
+
+body.light-mode .movie-card:hover::after {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+
+.error-message {
+    color: #F00000;
+    margin-top: 10px;
+}
+
+.page-content {
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.page-content.modal-active {
+    filter: blur(5px);
+    transform: scale(0.98);
+}
+
+
+/* Header Layout */
+.app-header {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+    padding: 0 20px;
+    position: relative;
+    text-align: center;
+}
+
+.header-top {
+    position: relative; /* allows toggle to be placed inside */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* center logo + title */
+    width: 100%;
+}
+
+
+.logo-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: filter 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
+    box-shadow: 0 0 15px rgba(255, 87, 87, 0.4);
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+/* Fix: Keep theme toggle pinned top-right */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 1.8rem;
+    border: none;
+    background: none;
+    color: var(--accent-color);
+    cursor: pointer;
+    z-index: 999;
+    transition: transform 0.4s ease, color 0.4s ease, text-shadow 0.4s ease;
+}
+
+/* Hover: soft spin and scale */
+.theme-toggle:hover {
+    transform: rotate(20deg) scale(1.2);
+}
+
+/* Dark mode (moon) glow */
+body:not(.light-mode) .theme-toggle {
+    color: #8ab4f8;
+    text-shadow: 0 0 10px rgba(138, 180, 248, 0.7);
+}
+
+/* Light mode (sun) glow */
+body.light-mode .theme-toggle {
+    color: #f6b93b;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+}
+
+/* Smooth spin on icon change */
+@keyframes spin {
+    from {
+        transform: rotate(0deg) scale(1);
+    }
+    to {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+.theme-toggle.spin {
+    animation: spin 0.6s ease;
+}
+
+
+
+/* Dark mode (default) */
+body:not(.light-mode) .logo {
+    filter: none; /* normal logo */
+    box-shadow: 0 0 15px rgba(255, 87, 87, 0.4);
+}
+
+body.light-mode .logo {
+    filter: brightness(1.5) drop-shadow(0 0 5px rgba(0,0,0,0.5));
+    transition: filter 0.3s ease;
+}
+
+body:not(.light-mode) .logo {
+    filter: brightness(1) drop-shadow(0 0 10px rgba(255,87,87,0.4));
+}
+
+
+.app-header h1 {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+
+.app-header p {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+/* Search bar */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 30px;
+}
+
+#movieTitleInput {
+    flex: 1 1 250px;
+    max-width: 400px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+#movieTitleInput::placeholder {
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: linear-gradient(to right, #93291E, #ED213A);
+    color: white;
+    transition: background 0.3s, transform 0.2s;
+    width: auto; /* 🔥 restore normal width */
+}
+
+button:hover {
+    background: linear-gradient(to right, #DC281E, #F00000);
+    transform: scale(1.05);
+}
+
+/* Results grid */
+.results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Movie cards */
+.movie-card {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin-top: 30px;
+}
+
+.movie-card, .modal-content, #movieTitleInput {
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 87, 87, 0.3);
+}
+
+.movie-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.movie-card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.movie-card p {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 5px;
+}
+
+/* ===== Modal Styles ===== */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+    /* Initial state for animation */
+    opacity: 0;
+    pointer-events: none; /* prevents interaction when hidden */
+    transition: opacity 0.3s ease;
+    display: flex; /* keep flex to center content */
+}
+
+.modal.show {
+    opacity: 1;
+    pointer-events: auto; /* now clickable */
+}
+
+.modal-content {
+    background-color: var(--modal-bg);
+    color: var(--text-color);
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 5px 20px rgba(255,87,87,0.3);
+
+    /* Initial state for scale animation */
+    transform: scale(0.7);
+    transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+
+.modal-body {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.modal-body img {
+    width: 250px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.modal-text {
+    flex: 1;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #ff5757;
+    transition: transform 0.2s;
+}
+
+.close-btn:hover {
+    transform: scale(1.2);
+    color: #DC281E;
+}
+
+:root {
+    --bg-color: #121212;
+    --text-color: #fff;
+    --accent-color: #DC281E;
+    --card-bg: #1a1a1a;
+    --modal-bg: #1c1c1c;
+}
+
+/* Light mode */
+body.light-mode {
+    --bg-color: #f6f6f6;
+    --text-color: #111;
+    --card-bg: #fff;
+    --modal-bg: #fff;
+}
+
+/* Glow states */
+body.light-mode .theme-toggle {
+    color: #f6b93b; /* golden glow for sun */
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+body:not(.light-mode) .theme-toggle {
+    color: #8ab4f8; /* cool blue glow for moon */
+    text-shadow: 0 0 10px rgba(138, 180, 248, 0.6);
+}
+
+/* Genre chips */
+.genre-container {
+    margin-top: 10px;
+}
+.genre-chip {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+.genre-chip:hover {
+    transform: scale(1.1);
+    background-color: #ff4040;
+}
+
+/* Ratings */
+#modalRating {
+    display: inline-block;
+    background: linear-gradient(90deg, gold 0%, orange 100%);
+    color: #111;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-left: 6px;
+}
+
+/* Hover overlay for movie cards */
+.movie-card {
+    position: relative;
+    overflow: hidden;
+}
+.movie-card::after {
+    content: "View Details";
+    position: absolute;
+    bottom: -40px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 10px;
+    transition: bottom 0.3s ease;
+}
+.movie-card:hover::after {
+    bottom: 0;
+}
+
+/* ===== Mobile First (default) ===== */
