@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="styles.css">
+    <title>Movie Project </title>
+</head>
+<body>
+<div class="page-content">
+    <header class="app-header">
+        <div class="header-top">
+            <div class="logo-title">
+                <img src="movie-logo.jpg" alt="Movie Logo" class="logo"/>
+                <h1>Movie Finder</h1>
+            </div>
+        </div>
+        <p class="paragraph"><strong>Search movies and see details instantly!</strong></p>
+    </header>
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">&#x1F319;</button>
+
+<div class="search-bar">
+<input type="text" id="movieTitleInput" placeholder="Enter movie title...">
+<button id="fetchMovieButton">Search</button>
+<div class="results">
+</div>
+</div>
+</div>
+
+<!-- Movie Details Modal -->
+<div class="modal" id="movieModal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <div class="modal-body">
+            <img id="modalPoster" src="" alt="Movie Poster">
+            <div class="modal-text">
+                <h2 id="modalTitle"></h2>
+                <p><strong>Year:</strong> <span id="modalYear"></span></p>
+                <p><strong>Genre:</strong> <span id="modalGenre"></span></p>
+                <p><strong>Director:</strong> <span id="modalDirector"></span></p>
+                <p><strong>IMDB Rating:</strong> <span id="modalRating"></span></p>
+                <div class="genre-container" id="genreContainer"></div>
+
+                <p><strong>Plot:</strong> <span id="modalPlot"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
