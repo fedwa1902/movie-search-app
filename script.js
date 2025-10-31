@@ -1,5 +1,5 @@
 // OMDB API Key
-const apiKey = "29829920";
+// const apiKey = "29829920";
 const resultsDiv = document.querySelector(".results");
 // Function to simulate delay
 function delayFetching(ms) {
