@@ -212,9 +212,10 @@ button:hover {
 .results {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    width: 100%;
-    max-width: 1200px;
+    gap: 25px;
+    width: 90vw; /* full width minus a little breathing room */
+    max-width: 1600px;
+    margin: 0 auto;
 }
 
 /* Movie cards */
@@ -414,4 +415,209 @@ body:not(.light-mode) .theme-toggle {
     bottom: 0;
 }
 
-/* ===== Mobile First (default) ===== */
+/* ====== Small devices (phones like iPhone SE, width ≤ 400px) ====== */
+@media (max-width: 400px) {
+    .app-header {
+        text-align: center;
+    }
+
+    .logo-title {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .app-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .theme-toggle {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        color: var(--accent-color);
+        cursor: pointer;
+        transition: transform 0.3s ease, color 0.3s ease;
+        z-index: 10;
+    }
+
+    #movieTitleInput {
+        flex: none !important;
+        width: 85% !important;
+        max-width: 280px !important;
+        height: 40px !important;
+        font-size: 0.9rem !important;
+        padding: 8px 10px !important;
+        border-radius: 6px !important;
+    }
+
+    .search-bar {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    .search-bar button {
+        width: 50% !important;
+        max-width: 150px !important;
+        font-size: 0.9rem !important;
+        padding: 8px 0 !important;
+    }
+
+    button {
+        width: auto;
+        padding: 10px 25px;
+        font-size: 1rem;
+    }
+
+    /*.results {*/
+    /*    grid-template-columns: 1fr;*/
+    /*}*/
+}
+
+/* Fix layout for medium phones (like iPhone XR, Pixel 7) */
+@media (min-width: 400px) and (max-width: 767px) {
+    /*.results {*/
+    /*    grid-template-columns: 1fr 1fr; !* 2 columns for these wider phones *!*/
+    /*    gap: 15px;*/
+    /*    width: 100%;*/
+    /*    padding: 0 10px;*/
+    /*    box-sizing: border-box;*/
+    /*}*/
+
+    .movie-card {
+        width: 100%;
+    }
+
+    .movie-card img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+}
+
+
+/* ===== Small Tablets & Landscape Phones ===== */
+@media (min-width: 480px) and (max-width: 767px) {
+    .app-header h1 {
+        font-size: 2.4rem;
+    }
+
+    .logo {
+        width: 70px;
+        height: 70px;
+    }
+
+    #movieTitleInput {
+        flex: 1 1 auto;
+        width: 70%;
+        max-width: 320px;
+        height: 42px;
+        font-size: 1rem;
+        padding: 10px 14px;
+        border-radius: 6px;
+    }
+
+    .search-bar {
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .search-bar button {
+        width: auto;
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    /*.results {*/
+    /*    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));*/
+    /*    gap: 20px;*/
+    /*}*/
+
+    .movie-card img {
+        height: 280px;
+    }
+}
+
+
+
+/* ===== Tablets (portrait & small landscape) ===== */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .app-header h1 {
+        font-size: 3rem;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+    }
+
+    .search-bar {
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+        max-width: 700px;
+        margin: 0 auto 40px auto;
+    }
+
+    #movieTitleInput {
+        flex: 1 1 300px;
+        max-width: 400px;
+        padding: 10px 15px;
+    }
+
+    button {
+        width: auto;
+        padding: 10px 20px;
+    }
+
+    /*.results {*/
+    /*    grid-template-columns: repeat(3, 1fr);*/
+    /*    gap: 25px;*/
+    /*    padding: 0 20px;*/
+    }
+
+    .movie-card img {
+        height: 300px;
+    }
+}
+
+/* ===== Laptops & Desktops ===== */
+@media (min-width: 1024px) {
+    .results {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .movie-card {
+        width: 100%;
+        max-width: none;
+    }
+
+    .movie-card img {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+    }
+
+
+}
+
+@media (min-width: 1400px) {
+    .results {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+}
+
+
+
