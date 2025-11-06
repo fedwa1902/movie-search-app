@@ -14,12 +14,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "bugs": {
     "url": "https://github.com/fedwa1902/movie-search-app/issues"
   },
   "homepage": "https://github.com/fedwa1902/movie-search-app#readme",
   "dependencies": {
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^2.7.0"
   }
 }

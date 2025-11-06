@@ -1,8 +1,12 @@
 [build]
-  publish = "."                 # your site files (HTML/CSS/JS) are in the root
-  functions = "netlify/functions"  # folder for your Netlify functions
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  external_node_modules = ["node-fetch"]
+  node_bundler = "esbuild"
 
 [dev]
-  port = 3000                   # port for local testing
-  publish = "."                 # same as above
+  port = 3000
+  publish = "."
   functions = "netlify/functions"
