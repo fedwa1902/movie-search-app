@@ -16,53 +16,51 @@ document.getElementById("fetchMovieButton").addEventListener("click", async () =
             resultsDiv.innerHTML = `<p><strong>Fetching movie data...</strong></p>`;
             await delayFetching(1500);
             // Fetch movie data from OMDB API
-            try {
-                // Make API request
-                const response = await fetch(`/.netlify/functions/movies?title=${encodeURIComponent(movieTitle)}`);
-                // Check if response is ok
-                if (response.ok) {
-                    // Parse JSON data
-                    const movieData = await response.json();
-                    // Check if movie was found
-                    if (movieData.Response === "True") {
-                        resultsDiv.innerHTML = movieData.Search.map(movie =>
-                            `<div class="movie-card" data-id="${movie.imdbID}">
-                             <h2>${movie.Title} (${movie.Year})</h2>
-                             <img
-                             src="${movie.Poster !== "N/A" ? movie.Poster : "https://cdn.pixabay.com/photo/2019/04/24/21/55/cinema-4153289_1280.jpg"}"
-                             alt="${movie.Title}"
-                             onerror="this.onerror=null; this.src='https://cdn.pixabay.com/photo/2019/04/24/21/55/cinema-4153289_1280.jpg';"
-                             >
-                             </div>`
-                        ).join("");
-                    }
 
-                        // Find all those cards in the DOM
-                        const cards = document.querySelectorAll(".movie-card");
+    try {
+        // Make API request
+        const response = await fetch(`/.netlify/functions/movies?title=${encodeURIComponent(movieTitle)}`);
+        // Check if response is ok
+        if (response.ok) {
+            // Parse JSON data
+            const movieData = await response.json();
+            // Check if movie was found
+            if (movieData.Response === "True") {
+                resultsDiv.innerHTML = movieData.Search.map(movie =>
+                    `<div class="movie-card" data-id="${movie.imdbID}">
+                    <h2>${movie.Title} (${movie.Year})</h2>
+                    <img
+                    src="${movie.Poster !== "N/A" ? movie.Poster : "https://cdn.pixabay.com/photo/2019/04/24/21/55/cinema-4153289_1280.jpg"}"
+                    alt="${movie.Title}"
+                    onerror="this.onerror=null; this.src='https://cdn.pixabay.com/photo/2019/04/24/21/55/cinema-4153289_1280.jpg';"
+                    >
+                </div>`
+                ).join("");
 
-                        // Add event listener to each card
-                        cards.forEach(card => {
-                            card.addEventListener("click", () => {
-                                const imdbID = card.dataset.id;
-                                showModal(imdbID);
-                            });
-                        });
+                // Find all those cards in the DOM
+                const cards = document.querySelectorAll(".movie-card");
 
-                    } else {
-                        resultsDiv.innerHTML = `<p><strong>Movie not found!</strong></p>`;
-                    }
-                } else {
-                    resultsDiv.innerHTML = `<p><strong>Error fetching movie data: ${response.statusText}</strong></p>`
-                }
-
-
-                console.log("Data fetched successfully!");
-                document.getElementById("movieTitleInput").value = "";
-
-            } catch (error) {
-                console.log("Network error:", error);
-                resultsDiv.innerHTML = `<p><strong>Network error. Please try again later.</strong></p>`;
+                // Add event listener to each card
+                cards.forEach(card => {
+                    card.addEventListener("click", () => {
+                        const imdbID = card.dataset.id;
+                        showModal(imdbID);
+                    });
+                });
+            } else {
+                resultsDiv.innerHTML = `<p><strong>Movie not found!</strong></p>`;
             }
+        } else {
+            resultsDiv.innerHTML = `<p><strong>Error fetching movie data: ${response.statusText}</strong></p>`;
+        }
+
+        console.log("Data fetched successfully!");
+        document.getElementById("movieTitleInput").value = "";
+
+    } catch (error) {
+        console.log("Network error:", error);
+        resultsDiv.innerHTML = `<p><strong>Network error. Please try again later.</strong></p>`;
+    }
 })
 
 // Event listener for Enter key press
