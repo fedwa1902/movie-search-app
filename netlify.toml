@@ -1,0 +1,8 @@
+[build]
+  publish = "."                 # your site files (HTML/CSS/JS) are in the root
+  functions = "netlify/functions"  # folder for your Netlify functions
+
+[dev]
+  port = 3000                   # port for local testing
+  publish = "."                 # same as above
+  functions = "netlify/functions"

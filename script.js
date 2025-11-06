@@ -1,5 +1,3 @@
-// OMDB API Key
-// const apiKey = "29829920";
 const resultsDiv = document.querySelector(".results");
 // Function to simulate delay
 function delayFetching(ms) {
@@ -20,7 +18,7 @@ document.getElementById("fetchMovieButton").addEventListener("click", async () =
             // Fetch movie data from OMDB API
             try {
                 // Make API request
-                const response = await fetch(`https://www.omdbapi.com/?s=${encodeURIComponent(movieTitle)}&apikey=${apiKey}`);
+                const response = await fetch(`/.netlify/functions/movies?title=${encodeURIComponent(movieTitle)}`);
                 // Check if response is ok
                 if (response.ok) {
                     // Parse JSON data
@@ -28,11 +26,23 @@ document.getElementById("fetchMovieButton").addEventListener("click", async () =
                     // Check if movie was found
                     if (movieData.Response === "True") {
                         resultsDiv.innerHTML = movieData.Search.map(movie =>
-                            `<div class="movie-card" onclick="showModal ('${movie.imdbID}')">
+                            `<div class="movie-card" data-id ="${movie.imdbID}">
                 <h2>${movie.Title} (${movie.Year})</h2>
                 <img src="${movie.Poster !== "N/A" ? movie.Poster : "placeholder.jpg"}" alt="${movie.Title}">
                 </div>
                 `).join("");
+
+                        // Find all those cards in the DOM
+                        const cards = document.querySelectorAll(".movie-card");
+
+                        // Add event listener to each card
+                        cards.forEach(card => {
+                            card.addEventListener("click", () => {
+                                const imdbID = card.dataset.id;
+                                showModal(imdbID);
+                            });
+                        });
+
                     } else {
                         resultsDiv.innerHTML = `<p><strong>Movie not found!</strong></p>`;
                     }
@@ -68,7 +78,7 @@ async function showModal(imdbID) {
     const modalDetails = document.querySelector(".modal-body");
 
     try {
-        const res = await fetch(`https://www.omdbapi.com/?i=${imdbID}&apikey=${apiKey}`);
+        const res = await fetch(`/.netlify/functions/movies?id=${imdbID}`);
         const data = await res.json();
 
         //Fill the modal with the details:

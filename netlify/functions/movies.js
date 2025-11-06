@@ -1,15 +1,44 @@
-// netlify/functions/movies.js
-const fetch = require("node-fetch"); // only if needed
+import fetch from "node-fetch";
 
-exports.handler = async function(event, context) {
-    const title = event.queryStringParameters.title;
-    const apiKey = process.env.MOVIE_API_KEY; // store your key in Netlify
+export const handler = async (event) => {
+    try {
+        const { title, id } = event.queryStringParameters;
+        const apiKey = process.env.MOVIE_API_KEY;
 
-    const response = await fetch(`https://www.omdbapi.com/?apikey=${apiKey}&t=${encodeURIComponent(title)}`);
-    const data = await response.json();
+        let url = `https://www.omdbapi.com/?apikey=${apiKey}`;
 
-    return {
-        statusCode: 200,
-        body: JSON.stringify(data)
-    };
+        if (title) {
+            // Search for movies by title
+            url += `&s=${encodeURIComponent(title)}`;
+        } else if (id) {
+            // Get full movie details by IMDb ID
+            url += `&i=${encodeURIComponent(id)}&plot=full`;
+        } else {
+            return {
+                statusCode: 400,
+                body: JSON.stringify({ error: "Missing title or id parameter" }),
+            };
+        }
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        return {
+            statusCode: 200,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+            },
+            body: JSON.stringify(data),
+        };
+    } catch (error) {
+        console.error("Function error:", error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({
+                error: "Failed fetching data",
+                details: error.message,
+            }),
+        };
+    }
 };
