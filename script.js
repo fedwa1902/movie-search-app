@@ -26,11 +26,16 @@ document.getElementById("fetchMovieButton").addEventListener("click", async () =
                     // Check if movie was found
                     if (movieData.Response === "True") {
                         resultsDiv.innerHTML = movieData.Search.map(movie =>
-                            `<div class="movie-card" data-id ="${movie.imdbID}">
-                <h2>${movie.Title} (${movie.Year})</h2>
-                <img src="${movie.Poster !== "N/A" ? movie.Poster : "placeholder.jpg"}" alt="${movie.Title}">
-                </div>
-                `).join("");
+                            `<div class="movie-card" data-id="${movie.imdbID}">
+                             <h2>${movie.Title} (${movie.Year})</h2>
+                             <img
+                             src="${movie.Poster !== "N/A" ? movie.Poster : "https://cdn.pixabay.com/photo/2019/04/24/21/55/cinema-4153289_1280.jpg"}"
+                             alt="${movie.Title}"
+                             onerror="this.onerror=null; this.src='https://cdn.pixabay.com/photo/2019/04/24/21/55/cinema-4153289_1280.jpg';"
+                             >
+                             </div>`
+                        ).join("");
+                    }
 
                         // Find all those cards in the DOM
                         const cards = document.querySelectorAll(".movie-card");
@@ -76,6 +81,7 @@ document.getElementById("movieTitleInput").addEventListener("keypress", (e) => {
 async function showModal(imdbID) {
     const modal = document.getElementById("movieModal");
     const modalDetails = document.querySelector(".modal-body");
+    const fallbackPosterUrl = "https://cdn.pixabay.com/photo/2019/04/24/21/55/cinema-4153289_1280.jpg";
 
     try {
         const res = await fetch(`/.netlify/functions/movies?id=${imdbID}`);
@@ -84,7 +90,11 @@ async function showModal(imdbID) {
         //Fill the modal with the details:
         modalDetails.innerHTML = `
         <h2>${data.Title}(${data.Year})</h2>
-        <img src="${data.Poster !== "N/A" ? data.Poster : "placeholder.jpg"}" alt="${data.Title}">
+        <img 
+        src="${data.Poster !== "N/A" ? data.Poster : fallbackPosterUrl}"
+        alt="${data.Title}"
+        onerror="this.onerror=null; this.src='${fallbackPosterUrl}';"
+        >
         <p><strong>Genre: </strong>${data.Genre}</p>
         <p><strong>Director: </strong>${data.Director}</p>
         <p><strong>Actors: </strong>${data.Actors}</p>
