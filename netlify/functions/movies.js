@@ -1,6 +1,6 @@
-import fetch from "node-fetch";
+const fetch = require('node-fetch');
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
     try {
         const { title, id } = event.queryStringParameters;
         const apiKey = process.env.MOVIE_API_KEY;
